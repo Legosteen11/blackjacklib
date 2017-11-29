@@ -14,9 +14,23 @@ enum class Deck(val cards: Array<Card>) {
             Card.Twee,
             Card.Twee,
             Card.Twee
-    ))
-
+    )),
+    BlackJackDeck(
+       fullDeck()
+    )
     ;
 
     fun getCardsWithoutDuplicates() = setOf(*cards).toTypedArray()
+}
+
+fun arrayOfFour(card: Card) = arrayOf(card, card, card, card)
+
+fun fullDeck(): Array<Card> {
+    val cards = arrayListOf<Card>()
+
+    Card.values().map { arrayOfFour(it) }.forEach {
+        cards.plusAssign(it)
+    }
+
+    return cards.toTypedArray()
 }

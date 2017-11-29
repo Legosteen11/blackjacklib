@@ -1,4 +1,4 @@
-package io.github.legosteen11.blackjacklib.probability
+package io.github.legosteen11.blackjacklib.maths.probability
 
 /**
  * A simple chance of something happening
