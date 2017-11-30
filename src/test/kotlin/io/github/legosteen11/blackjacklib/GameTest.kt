@@ -42,6 +42,8 @@ class GameTest {
         assertEquals(setOf(22, 32, 42, 52), gameBlackJack.getScore()) // 19 + 1 + 1 + 1 || 19 + 11 + 1 + 1 || 19 + 11 + 11 + 1 || 19 + 11 + 11 + 11
         gameBlackJack.drewCard(Card.Aas)
         assertEquals(setOf(23, 33, 43, 53, 63), gameBlackJack.getScore()) // 19 + 1 + 1 + 1 || 19 + 11 + 1 + 1 + 1 || 19 + 11 + 11 + 1 + 1 || 19 + 11 + 11 + 11 + 1 || 19 + 11 + 11 + 11 + 11
+        gameBlackJack.drewCard(Card.Acht)
+        assertEquals(setOf(31, 41, 51, 61, 71), gameBlackJack.getScore())
     }
 
     @Test

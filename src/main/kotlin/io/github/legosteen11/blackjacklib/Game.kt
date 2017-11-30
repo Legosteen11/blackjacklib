@@ -68,7 +68,7 @@ data class Game(val gameType: GameType, val safety: IProbability = SimpleChance(
             currentCardIndex++
         }
 
-        return score.values.reversed().let { it.drop(it.size - maxItems).toSet() }
+        return score.values.reversed().let { it.drop((it.size - maxItems).let { if(it > 0) it else 0 }).toSet() }
     }
 
     private fun getTotalItems(remainingCards: List<Card>, currentPossibilities: Int = 0): Int {
