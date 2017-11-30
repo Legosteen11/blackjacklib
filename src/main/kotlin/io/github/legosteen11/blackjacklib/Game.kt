@@ -4,10 +4,10 @@ import io.github.legosteen11.blackjacklib.game.Card
 import io.github.legosteen11.blackjacklib.game.GameType
 import io.github.legosteen11.blackjacklib.maths.probability.IProbability
 import io.github.legosteen11.blackjacklib.maths.probability.SimpleChance
+import java.io.Serializable
 
 
-
-data class Game(val gameType: GameType, val safety: IProbability = SimpleChance(0.5)) {
+data class Game(val gameType: GameType, val safety: IProbability = SimpleChance(0.5)): Serializable {
     private val playersCards = arrayListOf<Card>()
     private var bankCardsAmount = 0
 

@@ -1,6 +1,8 @@
 package io.github.legosteen11.blackjacklib.maths.probability
 
-interface IProbability {
+import java.io.Serializable
+
+interface IProbability: Serializable {
     /**
      * Get the chance of something happening
      *
