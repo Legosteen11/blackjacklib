@@ -34,41 +34,49 @@ data class Game(val gameType: GameType, val safety: IProbability = SimpleChance(
      * @return Returns a set of scores
      */
     fun getScore(): Set<Int> {
-        // yes, I know this code is a mess :)
+        val scores = hashSetOf<Int>()
 
-        val score = hashMapOf<Int, Int>()
+        val scoresSize = playersCards.sumBy { it.values.size - 1 }
 
-        val indexAtCard = hashMapOf<Int, Int>()
+        val alternativeCardValues = hashMapOf<Int, Int>()
 
-        if(playersCards.isEmpty())
-            return setOf(0)
+        for(currentRun in 0..scoresSize) {
+            // score for current run
+            var score = 0
 
-        val totalItems = getTotalItems(playersCards) - 1
+            // there should only be one added alternative card value per run
+            var addedAlternativeCardValue = false
 
-        val maxItems = 1 + playersCards.sumBy { it.values.size -1 }
+            playersCards.forEachIndexed { index, card ->
+                // the current index for the value, if an alternative is not set, it will default to 0 (first item)
+                val valueIndex = alternativeCardValues[index] ?: 0
+                // the current (alternative) value for the card
+                val value = card.values[valueIndex]
 
-        var uppedItems = 0
-        var currentCardIndex = 0
-        var currentRun = 0
-        (0..totalItems).forEach {
-            if(currentCardIndex >= playersCards.size) {
-                currentCardIndex = 0
-                currentRun++
+                // add the value of the card to the score
+                score += value
+
+                /*
+                Only up the alternative card value if:
+                    there is more than one value for this card
+                    the current valueIndex+1 is less than the amount of values for this card
+                    there wasn't already another alternative card value added this run
+                 */
+                if(card.values.size > 1 && valueIndex+1 < card.values.size && !addedAlternativeCardValue) {
+                    // add the alternative value index
+                    alternativeCardValues.put(index, valueIndex+1)
+                    // set the register
+                    addedAlternativeCardValue = true
+                }
             }
 
-            val card = playersCards[currentCardIndex]
-            val currentIndex = indexAtCard[currentCardIndex] ?: 0
-            if(card.values.size > currentIndex+1 && currentRun+1 > uppedItems) {
-                indexAtCard.put(currentCardIndex, currentIndex + 1)
-                uppedItems++
-            }
-            val cardScore = card.values.getOrNull(currentIndex) ?: 0
-
-            score.put(currentRun, (score[currentRun] ?: 0) + cardScore)
-            currentCardIndex++
+            scores.add(score)
         }
 
-        return score.values.reversed().let { it.drop((it.size - maxItems).let { if(it > 0) it else 0 }).toSet() }
+        if(scores.isEmpty())
+            scores.add(0)
+
+        return scores
     }
 
     private fun getTotalItems(remainingCards: List<Card>, currentPossibilities: Int = 0): Int {
