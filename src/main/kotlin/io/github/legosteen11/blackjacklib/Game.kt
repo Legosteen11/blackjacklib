@@ -79,17 +79,6 @@ data class Game(val gameType: GameType, val safety: IProbability = SimpleChance(
         return scores
     }
 
-    private fun getTotalItems(remainingCards: List<Card>, currentPossibilities: Int = 0): Int {
-        if(remainingCards.isEmpty())
-            return currentPossibilities
-
-        val currentItemSize = remainingCards.first().values.size
-
-        val newPossibilities = currentPossibilities * currentItemSize
-
-        return getTotalItems(remainingCards.drop(1), newPossibilities+currentItemSize)
-    }
-
     /**
      * Register a card you drew
      *
