@@ -8,5 +8,7 @@ import java.io.Serializable
  * @param chance The chance of something happening between 0 and 1
  */
 data class SimpleChance(val chance: Double): IProbability, Serializable {
-    override fun getChanceInPercent(): Double = chance*100
+    override fun getChanceInPercent(): Int = (chance*100).toInt()
+
+    fun invert() = SimpleChance(1.000-chance)
 }

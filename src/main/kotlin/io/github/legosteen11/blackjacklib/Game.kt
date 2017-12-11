@@ -118,9 +118,18 @@ data class Game(val gameType: GameType, val safety: IProbability = SimpleChance(
     /**
      * Get the chance of not losing a game
      *
-     * @return Returns an IProbability object
+     * @return Returns a SimpleChance object
      */
-    fun chanceOfNotLosing(): IProbability = SimpleChance(Math.random()) // TODO: Get a formula to calculate the chance of not winning
+    fun chanceOfNotLosing(): SimpleChance = chanceOfLosing().invert()
+
+    /**
+     * Get the chance of losing a game
+     *
+     * @return Returns a SimpleChance object
+     */
+    fun chanceOfLosing(): SimpleChance = SimpleChance(getCardsLeft().count { cardWouldLoseTheGame(it) }.toDouble() / getCardsLeft().size.toDouble())
+
+    private fun cardWouldLoseTheGame(card: Card) = (this.getScore().sorted().first() + (card.values.sorted().firstOrNull() ?: 0)) > gameType.maxValue
 
     /**
      * Check whether you should continue or not

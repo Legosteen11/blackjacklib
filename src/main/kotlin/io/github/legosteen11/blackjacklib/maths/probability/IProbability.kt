@@ -8,7 +8,7 @@ interface IProbability: Serializable {
      *
      * @return The chance of something happening in percents.
      */
-    fun getChanceInPercent(): Double
+    fun getChanceInPercent(): Int
 
     /**
      * Check whether the chance of this is higher than the chance of [probability]
