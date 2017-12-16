@@ -129,6 +129,13 @@ data class Game(val gameType: GameType, val safety: IProbability = SimpleChance(
      */
     fun chanceOfLosing(): SimpleChance = SimpleChance(getCardsLeft().count { cardWouldLoseTheGame(it) }.toDouble() / getCardsLeft().size.toDouble())
 
+    /**
+     * Check whether drawing a [card] would lose the game.
+     *
+     * @param card The card
+     *
+     * @return True if drawing the [card] would lose the game.
+     */
     private fun cardWouldLoseTheGame(card: Card) = (this.getScore().sorted().first() + (card.values.sorted().firstOrNull() ?: 0)) > gameType.maxValue
 
     /**
